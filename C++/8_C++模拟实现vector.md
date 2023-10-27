@@ -38,6 +38,23 @@ myvct()
 
 ---
 
+```cpp
+myvct(size_t num, const value_type& _vec = value_type())
+    :_start(nullptr)
+    ,_finish(nullptr)
+    ,_end_of_storage(nullptr)
+{
+    for (int i = 0; i <= num; i++)
+    {
+        push_back(_vec);
+    }
+}
+```
+
+
+
+---
+
 ## 析构
 
 ```cpp
