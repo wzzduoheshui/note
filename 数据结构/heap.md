@@ -111,3 +111,12 @@ void adjustDown(Hp* hp)
 
 ---
 
+## TOP-k问题
+
+求数据集合中前k个最小或最大的元素，一般情况下数据量都比较大
+
+> 排序O（NlogN）
+>
+> N个数的大堆，top/pop个k次，时间复杂读是O（N+k*logN）
+>
+> 
