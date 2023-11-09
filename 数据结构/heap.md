@@ -115,8 +115,24 @@ void adjustDown(Hp* hp)
 
 求数据集合中前k个最小或最大的元素，一般情况下数据量都比较大
 
-> 排序O（NlogN）
+> 1、排序O（NlogN）
 >
-> N个数的大堆，top/pop个k次，时间复杂读是O（N+k*logN）
+> 2、N个数的大堆，top/pop个k次，时间复杂读是O（N+k*logN）
 >
-> 
+> 3、见下（可能空间效率更高）
+
+排序最大的前K个数据
+
+1、前K个数建立小堆
+
+2、剩下的N-K个数如果比堆顶的数据大就替换堆顶的数据进堆
+
+走完以后，堆里面的K个数就是最大的前K个
+
+![TOP_k](https://dhrs-oss.oss-cn-beijing.aliyuncs.com/img/202311091652651.jpg)
+
+* 时间复杂度O（K+（N-K）*logK）
+
+> K个数建小堆
+>
+> N-K个数遍历并且伴随着K个数的堆向下调整
