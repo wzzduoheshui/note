@@ -135,3 +135,33 @@ int numBTklevel(mBTNode* root,int k)
 }
 ```
 
+---
+
+## 查找二叉树值为x的结点
+
+```c
+mBTNode* findBTNode(mBTNode* root,int x)
+{
+    if(root == NULL)
+    {
+        return NULL;
+    }
+    if(root->_data == x)
+    {
+        return root;
+    }
+
+    mBTNode* left = findBTNode(root->_left, x);
+    if(left)
+        return left;
+
+    mBTNode* right = findBTNode(root->_right, x);
+    if(right)
+        return right;
+}
+```
+
+---
+
+## 求二叉树的高度
+
