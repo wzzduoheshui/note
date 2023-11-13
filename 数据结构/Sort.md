@@ -125,3 +125,181 @@ gap越大，对应的数可以更快的走到对应的位置（即升序的话�
 
 所以我们可以进行多组gap的排序直到gap为1时就相当于是直接插入排序
 
+```c
+void shellSort(int* a,int n)
+{
+    int gap = n;
+    while(gap > 1)
+    {
+        gap = gap / 2;
+        for(int i = gap; i < n; ++i)
+        {
+            int end = i;
+            int tmp = a[end];
+            while(end - gap >= 0)
+            {
+                if(a[end - gap] >= tmp)
+                {
+                    a[end] = a[end - gap];
+                    end -= gap;
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+            a[end] = tmp;
+        }
+    }
+}
+```
+
+---
+
+希尔排序的时间复杂度大概是在O（N^1.3）左右
+
+> * gap的预排序阶段：
+>
+> 只看
+>
+> ```c
+>     int gap = n;
+>     while(gap > 1)
+>     {
+>         gap = gap / 2;
+> ```
+>
+> 可以推算出
+>
+> > 1. $ gap/2/2/.../2 = 1 $ 
+> > 2. $ 2 ^ x = gap $
+> > 3. $ x = log _2 gap $
+> > 4. $ x = log _2 N $
+>
+> * gap内的循环
+>
+> 看这部分
+>
+> ```c
+> for(int i = gap; i < n; ++i)
+> {
+>     int end = i;
+>     int tmp = a[end];
+>     while(end - gap >= 0)
+>     {
+>         if(a[end - gap] >= tmp)
+>         {
+>             a[end] = a[end - gap];
+>             end -= gap;
+>         }
+>         else
+>         {
+>             break;
+>         }
+> 
+>     }
+>     a[end] = tmp;
+> ```
+>
+> 1. gap越大的时候，for循环大概是$ n /2 $
+>
+>    里面的while循环反而因为gap很大，只需要比较2次左右的样子
+>
+>    合起来的话大概就是N
+>
+> 2. gap很小的时候，for循环大概是1、2次
+>
+>    里面的while循环，由于继承了前面的排序结果，很容易就能跳出循环
+>
+>    大概总体上也是接近于N
+>
+> 3. 中间的一些情况，也是在于上述两个区间，近似于N
+>
+> * 总体看来，希尔排序的时间复杂度大概是$ O(Nlog _2 N) $
+
+---
+
+## 选择排序
+
+选择排序是每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的
+数据元素排完 。
+
+```c
+
+void selectSort(int* a,int n)
+{
+    for(int end = 0; end < n; ++end)
+    {
+        int min = end;
+        for(int select = min; select < n; ++select)
+        {
+            if(a[min] > a[select])
+            {
+                min = select;
+            }
+        }
+        int tmp = a[min];
+        a[min] = a[end];
+        a[end] = tmp;
+    }
+}
+```
+
+> 这个时间复杂度过大，很少在实际情况中去使用
+
+---
+
+以下是对选择排序进行的优化，在遍历选择最小的时候，同时选择出最大的来
+
+```c
+void Swap(int* p1, int* p2)
+{
+    int tmp = *p1;
+    *p1 = *p2;
+    *p2 = tmp;
+}
+void selectSort(int* a, int n)
+{
+    for(int head = 0, tail = n - 1; head < tail; ++head, --tail)
+    {
+        int min = head;
+        int max = tail;
+        for(int i = head; i <= tail; ++i)
+        {
+            if(a[i] < a[min])
+            {
+                min = i;
+            }
+
+            if(a[i] > a[max])
+            {
+                max = i;
+            }
+        }
+
+        Swap(&a[head], &a[min]);
+        if(head == max)
+        {
+            max = min;
+        }
+        Swap(&a[max] ,&a[tail]);
+    }
+}
+```
+
+这里需要考虑到以下三种情况
+
+![111](https://dhrs-oss.oss-cn-beijing.aliyuncs.com/img/selectsort1.svg)
+
+![222](https://dhrs-oss.oss-cn-beijing.aliyuncs.com/img/selectsort2.png)
+
+![222](https://dhrs-oss.oss-cn-beijing.aliyuncs.com/img/selectsort3.png)
+
+![222](https://dhrs-oss.oss-cn-beijing.aliyuncs.com/img/selectsort4.png)
+
+
+---
+
+
+
